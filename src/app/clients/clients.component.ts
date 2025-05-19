@@ -4,6 +4,7 @@ import {Client} from '../model/client.model';
 import {ClientserviceService} from '../services/clientservice.service';
 import {AsyncPipe, CurrencyPipe, JsonPipe, NgForOf, NgIf} from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-clients',
@@ -24,7 +25,7 @@ export class ClientsComponent implements OnInit{
   errormes! : string
   searchformGroup !: FormGroup
 
-  constructor(private clservice : ClientserviceService,private fb:FormBuilder) {
+  constructor(private clservice : ClientserviceService,private fb:FormBuilder,private router:Router) {
   }
 
   ngOnInit() {
@@ -87,6 +88,10 @@ export class ClientsComponent implements OnInit{
         }
       });
     }
+  }
+
+  goToAddClient() {
+    this.router.navigate(['/new-client']); // adapte selon ta route
   }
 
 

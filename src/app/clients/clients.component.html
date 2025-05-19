@@ -1,12 +1,14 @@
 <div class="container mt-3">
   <h2>Liste des clients et crédits</h2>
-
+  <button class="btn btn-success" (click)="goToAddClient()">
+    <i class="bi bi-plus-lg"></i> Ajouter un client
+  </button>
   <div *ngIf="errormes" class="alert alert-danger">
     Erreur : {{ errormes }}
   </div>
-  <div *ngIf="searchformGroup">
-    {{this.searchformGroup.value | json}}
-    <form [formGroup]="searchformGroup"  (ngSubmit)="handleseach()">
+  <div *ngIf="searchformGroup" class="pt-3">
+
+    <form  [formGroup]="searchformGroup"  (ngSubmit)="handleseach()">
 
       <div class="input-group">
         <label class="input-group-text">keyword</label>
