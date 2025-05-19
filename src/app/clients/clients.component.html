@@ -1,1 +1,69 @@
-<p>clients works!</p>
+<div class="container mt-3">
+  <h2>Liste des clients et crédits</h2>
+
+  <div *ngIf="errormes" class="alert alert-danger">
+    Erreur : {{ errormes }}
+  </div>
+  <div *ngIf="searchformGroup">
+    {{this.searchformGroup.value | json}}
+    <form [formGroup]="searchformGroup"  (ngSubmit)="handleseach()">
+
+      <div class="input-group">
+        <label class="input-group-text">keyword</label>
+        <input type="text" formControlName="search" class="form-control">
+        <button class=" btn btn-info"> <i class="bi bi-search"></i></button>
+      </div>
+
+    </form>
+  </div>
+  <div *ngIf="clients$ | async as clients">
+    <div *ngIf="clients && clients.length > 0; else noClients">
+      <div *ngFor="let client of clients" class="mb-4 p-3 border rounded">
+
+        <h4>{{ client.nom }} ({{ client.email }})</h4>
+
+        <button class="btn btn-danger btn-sm" (click)="deleteClient(client.id)">
+          <i class="bi bi-trash"></i> Supprimer client
+        </button>
+
+        <div *ngIf="client.credits && client.credits.length > 0; else noCredits">
+          <h5>Crédits :</h5>
+          <table class="table table-sm table-bordered">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Statut</th>
+              <th>Montant</th>
+              <th>Taux d'intérêt (%)</th>
+              <th>Motif</th>
+              <th>Actions</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let credit of client.credits">
+              <td>{{ credit.id }}</td>
+              <td>{{ credit.statut }}</td>
+              <td>{{ credit.montant  }} DH</td>
+              <td>{{ credit.tauxInteret }}</td>
+              <td>{{ credit.motif || '-' }}</td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="deleteCredit(credit.id)">
+                  <i class="bi bi-trash"></i> Supprimer
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <ng-template #noCredits>
+          <p>Aucun crédit pour ce client.</p>
+        </ng-template>
+
+      </div>
+    </div>
+    <ng-template #noClients>
+      <p>Aucun client trouvé.</p>
+    </ng-template>
+  </div>
+</div>
